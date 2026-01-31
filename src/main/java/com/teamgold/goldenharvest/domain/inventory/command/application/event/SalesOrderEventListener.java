@@ -1,6 +1,6 @@
 package com.teamgold.goldenharvest.domain.inventory.command.application.event;
 
-import com.teamgold.goldenharvest.domain.inventory.command.application.event.dto.SalesOrderEvent;
+import com.teamgold.goldenharvest.domain.inventory.command.application.event.dto.SalesOrderCreatedEvent;
 import com.teamgold.goldenharvest.domain.inventory.command.application.event.dto.SalesOrderResultEvent;
 import com.teamgold.goldenharvest.domain.inventory.command.application.service.LotService;
 import lombok.RequiredArgsConstructor;
@@ -8,9 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
@@ -23,9 +20,8 @@ public class SalesOrderEventListener {
 	private final ApplicationEventPublisher eventPublisher;
 
 	@Async
-	@TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
-	@Transactional(propagation = Propagation.REQUIRES_NEW)
-	public void handleSalesOrder(SalesOrderEvent salesOrderEvent) {
+	@TransactionalEventListener
+	public void handleSalesOrder(SalesOrderCreatedEvent salesOrderEvent) {
 		log.info("판매 주문 event 수신 완료");
 
 		try {

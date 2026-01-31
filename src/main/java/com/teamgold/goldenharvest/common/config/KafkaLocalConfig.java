@@ -1,16 +1,18 @@
-package com.teamgold.goldenharvest.common.broker;
+package com.teamgold.goldenharvest.common.config;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
-import org.springframework.beans.factory.annotation.Value;
+import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
-import org.springframework.kafka.core.ConsumerFactory;
-import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
+import org.springframework.kafka.core.*;
 import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer;
 import org.springframework.kafka.support.serializer.JacksonJsonDeserializer;
+import org.springframework.kafka.support.serializer.JacksonJsonSerializer;
 import tools.jackson.databind.json.JsonMapper;
 
 import java.util.HashMap;
@@ -18,21 +20,17 @@ import java.util.Map;
 
 @Configuration
 @EnableKafka
-public class KafkaConsumerConfig {
-
-    @Value("${spring.kafka.bootstrap-servers}")
-    private String AWS_MSK_URL;
+@Profile("local")
+public class KafkaLocalConfig {
 
     @Bean
     public ConsumerFactory<String, Object> consumerFactory() {
         Map<String, Object> props = new HashMap<>();
-        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, AWS_MSK_URL);
-        props.put(ConsumerConfig.GROUP_ID_CONFIG, "golden.harvest.inventory");
-
-        props.put("security.protocol", "SASL_SSL");
-        props.put("sasl.mechanism", "AWS_MSK_IAM");
-        props.put("sasl.jaas.config", "software.amazon.msk.auth.iam.IAMLoginModule required;");
-        props.put("sasl.client.callback.handler.class", "software.amazon.msk.auth.iam.IAMClientCallbackHandler");
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        props.put(ConsumerConfig.GROUP_ID_CONFIG, "golden.harvest.inventory.processor");
+        props.put("spring.json.use.type.headers", false);
+        props.put("spring.json.value.default.type", "com.teamgold.goldenharvest.domain.inventory.command.application.event.dto.SalesOrderEvent");
+        props.put("spring.json.trusted.packages", "*");
 
         StringDeserializer keyDeserializer = new StringDeserializer();
 
@@ -40,8 +38,6 @@ public class KafkaConsumerConfig {
 
         JacksonJsonDeserializer<Object> jacksonDeserializer =
                 new JacksonJsonDeserializer<>(Object.class, jsonMapper);
-
-        jacksonDeserializer.addTrustedPackages("*");
 
         ErrorHandlingDeserializer<Object> valueDeserializer =
                 new ErrorHandlingDeserializer<>(jacksonDeserializer);
@@ -59,5 +55,23 @@ public class KafkaConsumerConfig {
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
         return factory;
+    }
+
+    @Bean
+    public ProducerFactory<String, Object> producerFactory() {
+        Map<String, Object> props = new HashMap<>();
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+
+        StringSerializer keySerializer = new StringSerializer();
+
+        JsonMapper jsonMapper = JsonMapper.builder().build();
+        JacksonJsonSerializer<Object> valueSerializer = new JacksonJsonSerializer<>(jsonMapper);
+
+        return new DefaultKafkaProducerFactory<>(props, keySerializer, valueSerializer);
+    }
+
+    @Bean
+    public KafkaTemplate<String, Object> kafkaTemplate() {
+        return new KafkaTemplate<>(producerFactory());
     }
 }

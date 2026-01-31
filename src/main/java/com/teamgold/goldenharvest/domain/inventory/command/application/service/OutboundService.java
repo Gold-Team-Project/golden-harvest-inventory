@@ -1,6 +1,6 @@
 package com.teamgold.goldenharvest.domain.inventory.command.application.service;
 
-import com.teamgold.goldenharvest.domain.inventory.command.application.event.dto.SalesOrderEvent;
+import com.teamgold.goldenharvest.domain.inventory.command.application.event.dto.SalesOrderCreatedEvent;
 import com.teamgold.goldenharvest.domain.inventory.command.domain.lot.Lot;
 import com.teamgold.goldenharvest.domain.inventory.command.domain.lot.Outbound;
 import com.teamgold.goldenharvest.domain.inventory.command.infrastructure.IdGenerator;
@@ -19,7 +19,7 @@ public class OutboundService {
 	private final OutboundRepository outboundRepository;
 
 	@Transactional
-	public String processOutbound(Lot lot, int consumedQuantity, SalesOrderEvent salesOrderEvent) {
+	public String processOutbound(Lot lot, int consumedQuantity, SalesOrderCreatedEvent salesOrderEvent) {
 		Outbound currentOutbound = Outbound.builder()
 			.outboundId(IdGenerator.createId("out"))
 			.salesOrderItemId(salesOrderEvent.salesOrderItemId())

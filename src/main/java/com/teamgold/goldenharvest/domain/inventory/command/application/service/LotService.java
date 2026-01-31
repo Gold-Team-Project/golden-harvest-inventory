@@ -3,7 +3,7 @@ package com.teamgold.goldenharvest.domain.inventory.command.application.service;
 import com.teamgold.goldenharvest.common.exception.BusinessException;
 import com.teamgold.goldenharvest.common.exception.ErrorCode;
 import com.teamgold.goldenharvest.domain.inventory.command.application.event.dto.PurchaseOrderCreatedEvent;
-import com.teamgold.goldenharvest.domain.inventory.command.application.event.dto.SalesOrderEvent;
+import com.teamgold.goldenharvest.domain.inventory.command.application.event.dto.SalesOrderCreatedEvent;
 import com.teamgold.goldenharvest.domain.inventory.command.domain.lot.Lot;
 import com.teamgold.goldenharvest.domain.inventory.command.infrastructure.IdGenerator;
 import com.teamgold.goldenharvest.domain.inventory.command.infrastructure.LotRepository;
@@ -39,7 +39,7 @@ public class LotService {
 	}
 
 	@Transactional
-	public void consumeLot(SalesOrderEvent salesOrderEvent) {
+	public void consumeLot(SalesOrderCreatedEvent salesOrderEvent) {
 
 		String skuNo = salesOrderEvent.skuNo();
 		int quantity = salesOrderEvent.quantity();

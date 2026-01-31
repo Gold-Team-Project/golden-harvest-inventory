@@ -5,7 +5,7 @@ import lombok.Builder;
 import java.math.BigDecimal;
 
 @Builder
-public record SalesOrderEvent(
+public record SalesOrderCreatedEvent(
 	String salesOrderItemId,
 	String skuNo,
 	BigDecimal salesPrice,
