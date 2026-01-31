@@ -31,7 +31,7 @@ public class KafkaProdConfig {
     public ConsumerFactory<String, Object> consumerFactory() {
         Map<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, AWS_MSK_URL);
-        props.put(ConsumerConfig.GROUP_ID_CONFIG, "golden.harvest.inventory");
+        props.put(ConsumerConfig.GROUP_ID_CONFIG, "golden.harvest.inventory.processor");
 
         props.put("security.protocol", "SASL_SSL");
         props.put("sasl.mechanism", "AWS_MSK_IAM");

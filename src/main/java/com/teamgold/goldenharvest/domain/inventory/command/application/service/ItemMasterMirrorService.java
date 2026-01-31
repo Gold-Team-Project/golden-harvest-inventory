@@ -3,7 +3,7 @@ package com.teamgold.goldenharvest.domain.inventory.command.application.service;
 import com.teamgold.goldenharvest.common.exception.BusinessException;
 import com.teamgold.goldenharvest.common.exception.ErrorCode;
 import com.teamgold.goldenharvest.domain.inventory.command.application.event.dto.ItemMasterUpdatedEvent;
-import com.teamgold.goldenharvest.domain.inventory.command.application.event.dto.ItemOriginPriceUpdateEvent;
+import com.teamgold.goldenharvest.domain.inventory.command.application.event.dto.ItemOriginPriceUpdatedEvent;
 import com.teamgold.goldenharvest.domain.inventory.command.domain.mirror.ItemMasterMirror;
 import com.teamgold.goldenharvest.domain.inventory.command.infrastructure.ItemMasterMirrorRepository;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +31,7 @@ public class ItemMasterMirrorService {
 		itemMasterMirrorRepository.save(itemMasterMirror);
 	}
 
-	public void updateOriginPrice(ItemOriginPriceUpdateEvent itemOriginPriceUpdateEvent) {
+	public void updateOriginPrice(ItemOriginPriceUpdatedEvent itemOriginPriceUpdateEvent) {
 		List<ItemMasterMirror> itemMasterMirrors = itemMasterMirrorRepository.findBySkuNo(
 			itemOriginPriceUpdateEvent.skuNo());
 

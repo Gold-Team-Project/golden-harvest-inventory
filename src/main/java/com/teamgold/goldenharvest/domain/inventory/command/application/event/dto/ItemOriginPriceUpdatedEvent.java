@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Builder
-public record ItemOriginPriceUpdateEvent(
+public record ItemOriginPriceUpdatedEvent(
 	String skuNo,
 	LocalDate updatedDate,
 	BigDecimal originPrice

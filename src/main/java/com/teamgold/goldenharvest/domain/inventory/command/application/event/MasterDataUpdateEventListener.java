@@ -1,7 +1,7 @@
 package com.teamgold.goldenharvest.domain.inventory.command.application.event;
 
 import com.teamgold.goldenharvest.domain.inventory.command.application.event.dto.ItemMasterUpdatedEvent;
-import com.teamgold.goldenharvest.domain.inventory.command.application.event.dto.ItemOriginPriceUpdateEvent;
+import com.teamgold.goldenharvest.domain.inventory.command.application.event.dto.ItemOriginPriceUpdatedEvent;
 import com.teamgold.goldenharvest.domain.inventory.command.application.service.ItemMasterMirrorService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,7 +34,7 @@ public class MasterDataUpdateEventListener {
 	@Async
 	@TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
-	public void updateItemPrice(ItemOriginPriceUpdateEvent itemOriginPriceUpdateEvent) {
+	public void updateItemPrice(ItemOriginPriceUpdatedEvent itemOriginPriceUpdateEvent) {
 		log.info("원가 업데이트 이벤트 수신 완료.");
 
 		itemMasterMirrorService.updateOriginPrice(itemOriginPriceUpdateEvent);
