@@ -5,6 +5,7 @@ import com.teamgold.goldenharvest.domain.inventory.command.application.dto.Disca
 import com.teamgold.goldenharvest.domain.inventory.command.application.service.DiscardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,6 +21,7 @@ public class DiscardController {
 	private final DiscardService discardService;
 
 	@PostMapping("/discard")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<ApiResponse<?>> discardItem(@RequestBody @Validated DiscardItemRequest discardItemRequest) {
 		return ResponseEntity.ok(ApiResponse.success(discardService.discardItem(discardItemRequest)));
 	}

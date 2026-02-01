@@ -4,6 +4,7 @@ import com.teamgold.goldenharvest.common.response.ApiResponse;
 import com.teamgold.goldenharvest.domain.inventory.query.service.PricePolicyQueryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,7 @@ public class PricePolicyQueryController {
 	* 가격 정책 리스트를 조회하는 endpoint
 	 */
 	@GetMapping("/price-policy")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<ApiResponse<?>> getAllPricePolicy() {
 		return ResponseEntity.ok(ApiResponse.success(pricePolicyQueryService.getAllPricePolicy()));
 	}

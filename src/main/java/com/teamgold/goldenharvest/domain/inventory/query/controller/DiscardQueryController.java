@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +31,7 @@ public class DiscardQueryController {
 	* 날짜별 최신순으로 정렬된다
 	 */
 	@GetMapping("/discard/list")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<ApiResponse<?>> getAllDiscard(
 		@RequestParam(name = "page", defaultValue = "1") @Min(1) Integer page,
 		@RequestParam(name = "size", defaultValue = "20") @Min(1) @Max(50) Integer size,
@@ -49,16 +51,19 @@ public class DiscardQueryController {
 	}
 
 	@GetMapping("/discard/volume")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<ApiResponse<?>> getDiscardVolume() {
 		return ResponseEntity.ok(ApiResponse.success(discardQueryService.getDiscardVolume()));
 	}
 
 	@GetMapping("/discard/loss")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<ApiResponse<?>> getDiscardLoss() {
         return ResponseEntity.ok(ApiResponse.success(discardQueryService.getDiscardLoss()));
 	}
 
 	@GetMapping("/discard/ratio-by-item")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<ApiResponse<?>> getDiscardRatioByItem() {
         return ResponseEntity.ok(ApiResponse.success(discardQueryService.getDiscardRate()));
 	}
