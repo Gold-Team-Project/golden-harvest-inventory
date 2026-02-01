@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +30,7 @@ public class InventoryQueryController {
 	 * sku를 명시하여 필터링이 가능하다
 	 */
 	@GetMapping("/items")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<ApiResponse<?>> getAvailableItemList(
 		@RequestParam(name = "page", defaultValue = "1") @Min(1) Integer page,
 		@RequestParam(name = "size", defaultValue = "20") @Min(1) @Max(50) Integer size,
@@ -43,6 +45,7 @@ public class InventoryQueryController {
 	* sku, 날짜, 상태를 통한 필터링이 가능하다
 	 */
 	@GetMapping("/admin/items")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<ApiResponse<?>> getAllItemList(
 		@RequestParam(name = "page", defaultValue = "1") @Min(1) Integer page,
 		@RequestParam(name = "size", defaultValue = "20") @Min(1) @Max(50) Integer size,
@@ -70,6 +73,7 @@ public class InventoryQueryController {
 	* skuNo를 명시하여 필터링이 가능하다
 	* */
 	@GetMapping("/inbound")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<ApiResponse<?>> getAllInbounds(
 		@RequestParam(name = "page", defaultValue = "1") @Min(1) Integer page,
 		@RequestParam(name = "size", defaultValue = "20") @Min(1) @Max(50) Integer size,
@@ -94,6 +98,7 @@ public class InventoryQueryController {
 	* lot를 명시하여 필터링이 가능하다
 	* */
 	@GetMapping("/outbound")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<ApiResponse<?>> getAllOutbounds(
 		@RequestParam(name = "page", defaultValue = "1") @Min(1) Integer page,
 		@RequestParam(name = "size", defaultValue = "20") @Min(1) @Max(50) Integer size,
