@@ -55,7 +55,7 @@ mybatis:
   mapper-locations: mappers/**/*.xml
 
 server:
-  port: 8088
+  port: ${SERVER_PORT}
 
 inventory:
   base-url: http://localhost:8088
