@@ -1,12 +1,22 @@
-# Java 21 Amazon Corretto 베이스 이미지 사용
-FROM amazoncorretto:21-alpine-jdk
+# 1단계: 빌드 스테이지 (JDK 21 사용)
+FROM amazoncorretto:21-alpine AS builder
+WORKDIR /build
 
-# 작업 디렉토리 설정
+# 설정 파일 복사 (빌드 캐시)
+COPY gradlew .
+COPY gradle gradle
+COPY build.gradle settings.gradle ./
+
+# 의존성 다운로드
+RUN ./gradlew --no-daemon dependencies
+
+# 전체 소스 복사 및 JAR 파일 생성
+COPY src src
+RUN ./gradlew --no-daemon bootJar -x test
+
+# 실행 스테이지
+FROM amazoncorretto:21-alpine
 WORKDIR /app
 
-# 빌드된 jar 파일을 컨테이너로 복사
-ARG JAR_FILE=build/libs/*.jar
-COPY ${JAR_FILE} app.jar
-
-# 실행 권한 부여 및 실행
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# 빌드 스테이지에서 생성된 jar만 복사
+COPY --from=builder /build/build/libs/*.jar app.jar
