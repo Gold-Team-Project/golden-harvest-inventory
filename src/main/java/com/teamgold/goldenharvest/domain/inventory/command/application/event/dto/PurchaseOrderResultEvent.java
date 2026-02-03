@@ -9,10 +9,11 @@ public record PurchaseOrderResultEvent(
 	String purchaseOrderId,
 	String status
 ) {
-	public static PurchaseOrderResultEvent create(
-		String purchaseOrderId,
-		String status
-	) {
-		return new PurchaseOrderResultEvent(purchaseOrderId, status);
+	public static PurchaseOrderResultEvent success(String purchaseOrderId) {
+		return new PurchaseOrderResultEvent(purchaseOrderId, "success");
+	}
+
+	public static PurchaseOrderResultEvent fail(String purchaseOrderId) {
+		return new PurchaseOrderResultEvent(purchaseOrderId, "fail");
 	}
 }
