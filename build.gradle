@@ -64,16 +64,12 @@ dependencies {
 
     // kafka
     implementation 'org.springframework.kafka:spring-kafka'
-//    implementation 'org.apache.kafka:kafka-clients:3.9.1'
-
 
     // aws auth
     implementation 'software.amazon.msk:aws-msk-iam-auth:2.2.0'
 
-    //spring cloud
-    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
     //공통 모듈
-//    implementation 'com.teamgold:golden-harvest-common-all:0.0.1-SNAPSHOT'
+    implementation 'com.teamgold:golden-harvest-common-all:0.0.1-SNAPSHOT'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
 }
