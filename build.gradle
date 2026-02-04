@@ -68,8 +68,6 @@ dependencies {
     // aws auth
     implementation 'software.amazon.msk:aws-msk-iam-auth:2.2.0'
 
-    //공통 모듈
-    implementation 'com.teamgold:golden-harvest-common-all:0.0.1-SNAPSHOT'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
 }
