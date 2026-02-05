@@ -30,7 +30,7 @@ public class InventoryQueryController {
 	 * sku를 명시하여 필터링이 가능하다
 	 */
 	@GetMapping("/items")
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('USER')")
 	public ResponseEntity<ApiResponse<?>> getAvailableItemList(
 		@RequestParam(name = "page", defaultValue = "1") @Min(1) Integer page,
 		@RequestParam(name = "size", defaultValue = "20") @Min(1) @Max(50) Integer size,
