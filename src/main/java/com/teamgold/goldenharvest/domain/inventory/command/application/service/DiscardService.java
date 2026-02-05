@@ -9,6 +9,7 @@ import com.teamgold.goldenharvest.domain.inventory.command.domain.lot.Lot;
 import com.teamgold.goldenharvest.domain.inventory.command.domain.mirror.ItemMasterMirror;
 import com.teamgold.goldenharvest.domain.inventory.command.infrastructure.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,7 +29,7 @@ public class DiscardService {
 
 
 	@Transactional
-	public String discardItem(DiscardItemRequest discardItemRequest) {
+	public String discardItem(DiscardItemRequest discardItemRequest, Jwt jwt) {
 		Lot lot = lotRepository.findByLotNo(discardItemRequest.getLotNo()).getFirst();
 
 		if (Objects.isNull(lot)) {
@@ -52,7 +53,7 @@ public class DiscardService {
 			.discardStatus(status)
 			.quantity(discardItemRequest.getQuantity())
 			.discardedAt(LocalDateTime.now())
-			.approvedBy(discardItemRequest.getApprovedAdminEmail())
+			.approvedBy(jwt.getSubject())
 			.discardRate(BigDecimal.valueOf(discardItemRequest.getQuantity() / lot.getQuantity()))
 			.totalPrice(itemMaster.getCurrentOriginPrice().multiply(BigDecimal.valueOf(discardItemRequest.getQuantity())))
 			.build();
