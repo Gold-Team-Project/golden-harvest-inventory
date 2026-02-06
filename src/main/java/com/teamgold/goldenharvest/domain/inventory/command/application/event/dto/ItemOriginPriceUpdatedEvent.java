@@ -8,6 +8,5 @@ import java.time.LocalDate;
 @Builder
 public record ItemOriginPriceUpdatedEvent(
 	String skuNo,
-	LocalDate updatedDate,
 	BigDecimal originPrice
 ) { }
