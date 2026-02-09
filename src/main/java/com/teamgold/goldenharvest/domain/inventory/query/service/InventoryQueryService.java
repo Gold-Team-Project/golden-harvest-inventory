@@ -24,23 +24,24 @@ public class InventoryQueryService {
 	private final OutboundMapper outboundMapper;
 
 	public List<AvailableItemResponse> getAllAvailableItem(
-		Integer page,
-		Integer size,
-		String skuNo) {
+			Integer page,
+			Integer size,
+			String skuNo,
+			String itemName) {
 		int limit = size;
 		int offset = (page - 1) * limit;
 
-		return lotMapper.findAllAvailableItems(limit, offset, skuNo);
+		return lotMapper.findAllAvailableItems(limit, offset, skuNo, itemName);
 	}
 
 	public List<ItemResponse> getAllItem(
-		Integer page,
-		Integer size,
-		String itemName,
-		String lotNo,
-		LocalDate startDate,
-		LocalDate endDate,
-		String status) {
+			Integer page,
+			Integer size,
+			String itemName,
+			String lotNo,
+			LocalDate startDate,
+			LocalDate endDate,
+			String status) {
 
 		if (startDate == null || endDate == null) {
 			startDate = LocalDate.now().minusWeeks(1);
@@ -54,16 +55,15 @@ public class InventoryQueryService {
 		int limit = size;
 		int offset = (page - 1) * limit;
 
-
 		return lotMapper.findAllItems(limit, offset, itemName, lotNo, startDate, endDate, status);
 	}
 
 	public List<InboundResponse> getInbounds(
-		Integer page,
-		Integer size,
-		String skuNo,
-		LocalDate startDate,
-		LocalDate endDate) {
+			Integer page,
+			Integer size,
+			String skuNo,
+			LocalDate startDate,
+			LocalDate endDate) {
 
 		int limit = size;
 		int offset = (page - 1) * limit;
@@ -78,22 +78,20 @@ public class InventoryQueryService {
 		}
 
 		return inboundMapper.findAllInbounds(
-			limit,
-			offset,
-			skuNo,
-			startDate,
-			endDate
-		);
+				limit,
+				offset,
+				skuNo,
+				startDate,
+				endDate);
 	}
 
 	public List<OutboundResponse> getOutbounds(
-		Integer page,
-		Integer size,
-		String skuNo,
-		String lotNo,
-		LocalDate startDate,
-		LocalDate endDate
-	) {
+			Integer page,
+			Integer size,
+			String skuNo,
+			String lotNo,
+			LocalDate startDate,
+			LocalDate endDate) {
 		int limit = size;
 		int offset = (page - 1) * limit;
 
@@ -107,12 +105,11 @@ public class InventoryQueryService {
 		}
 
 		return outboundMapper.findAllOutbounds(
-			limit,
-			offset,
-			skuNo,
-			lotNo,
-			startDate,
-			endDate
-		);
+				limit,
+				offset,
+				skuNo,
+				lotNo,
+				startDate,
+				endDate);
 	}
 }
